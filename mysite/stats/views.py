@@ -12,16 +12,18 @@ def index(request):
 
     arr = [line.split() for line in lines_after_7]
 
-    dicts = dict((z[0],list(z[1:])) for z in arr)
+    dicts = dict((z[0],list(z[1:])) for z in arr[1:])
 
-#    for a in arr[1:]:
-#        dicts[name] = {name: w for name in list_of_cols}
-#        year = a[0]
-#        stat, created = Data.objects.get_or_create(year=year)
-#
+    l = []
+
+    for key, value in dicts.iteritems():
+        k = int(key)
+        if Data.objects.filter(year=k).exists():
+            l.append("has")
+
 #        if created:
 #           # means you have created a new person
 #        else:
-#           # person just refers to the existing one
+#           # stat just refers to the existing one
 
-    return HttpResponse(json.dumps(dicts), content_type="application/json")
+    return HttpResponse(json.dumps(l), content_type="application/json")
