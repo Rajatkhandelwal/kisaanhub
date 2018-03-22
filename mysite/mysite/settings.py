@@ -107,3 +107,36 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
+DATA_ROOT_URL = 'https://www.metoffice.gov.uk/pub/data/weather/uk/climate/datasets/'
+
+REGION_TYPE = {
+    'uk': {
+        'max_temp': 'Tmax/date/UK.txt',
+        'min_temp': 'Tmin/date/UK.txt',
+        'mean_temp': 'Tmean/date/UK.txt',
+        'sunshine': 'Sunshine/date/UK.txt',
+        'rainfall': 'Rainfall/date/UK.txt'
+    },
+    'england': {
+        'max_temp': 'Tmax/date/England.txt',
+        'min_temp': 'Tmin/date/England.txt',
+        'mean_temp': 'Tmean/date/England.txt',
+        'sunshine': 'Sunshine/date/England.txt',
+        'rainfall': 'Rainfall/date/England.txt'
+    },
+    'wales': {
+        'max_temp': 'Tmax/date/Wales.txt',
+        'min_temp': 'Tmin/date/Wales.txt',
+        'mean_temp': 'Tmean/date/Wales.txt',
+        'sunshine': 'Sunshine/date/Wales.txt',
+        'rainfall': 'Rainfall/date/Wales.txt'
+    },
+    'scotland': {
+        'max_temp': 'Tmax/date/Scotland.txt',
+        'min_temp': 'Tmin/date/Scotland.txt',
+        'mean_temp': 'Tmean/date/Scotland.txt',
+        'sunshine': 'Sunshine/date/Scotland.txt',
+        'rainfall': 'Rainfall/date/Scotland.txt'
+    }
+}

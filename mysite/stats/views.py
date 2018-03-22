@@ -3,11 +3,23 @@ from django.http import HttpResponse
 from django.conf import settings
 from stats.models import *
 
+import requests
 import json
+import os
 
 # Create your views here.
 def index(request):
-    with open(settings.STATIC_ROOT + "/stats/uk_max_temp.txt") as f:
+
+    temp_file = 'temp.txt'
+    data_type = 'min_temp'
+    country = 'uk'
+
+    r = requests.get(settings.DATA_ROOT_URL + settings.REGION_TYPE[country][data_type])
+    file = open(temp_file,'w')
+    file.write(r.text)
+    file.close()
+
+    with open(temp_file) as f:
         lines_after_7 = f.readlines()[7:]
 
     arr = [line.split() for line in lines_after_7]
@@ -18,12 +30,9 @@ def index(request):
 
     for key, value in dicts.iteritems():
         k = int(key)
-        if Data.objects.filter(year=k).exists():
+        if Data.objects.filter(data_type=data_type, country=country, year=k).exists():
             l.append("has")
 
-#        if created:
-#           # means you have created a new person
-#        else:
-#           # stat just refers to the existing one
+    os.remove(temp_file)
 
     return HttpResponse(json.dumps(l), content_type="application/json")

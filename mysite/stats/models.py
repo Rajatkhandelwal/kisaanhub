@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 class Data(models.Model):
     data_type = models.CharField(max_length=200)
+    country = models.CharField(max_length=200, default='')
     year = models.IntegerField(default=0)
     jan = models.FloatField(default=0)
     feb = models.FloatField(default=0)
