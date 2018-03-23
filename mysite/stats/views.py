@@ -45,7 +45,8 @@ def stats_data(request, country, data_type):
             "regions": settings.REGION,
             "data_type": settings.DATA_TYPE,
             "active_region": country,
-            "active_data_type": data_type.replace('_', ' ')
+            "active_data_type": data_type.replace('_', ' '),
+            "stats": data
         }
         context = RequestContext(request, params)
         return HttpResponse(template.render(context))
