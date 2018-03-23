@@ -1,1 +1,62 @@
-<h1>{{cool}}</h1>
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Weather Stats</title>
+  <meta name="description" content="This is a video landing page" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="Codeply">
+  <link rel="stylesheet" href="{% static 'stats/css/bootstrap.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'stats/css/animate.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'stats/css/ionicons.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'stats/css/chartist.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'stats/css/styles.css' %}" />
+</head>
+
+<body>
+  <nav id="topNav" class="navbar navbar-default navbar-static">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand page-scroll" href="#first">Weather Stats</a>
+      </div>
+      <div class="navbar-collapse collapse" id="bs-navbar">
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown" id="regions">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown"><span id="ac_region" data-region="{{active_region}}">{{active_region | title}}</span> <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              {% for r in regions %}
+                <li><a href="" class="r">{{r}}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+          <li class="dropdown" id="data_type">
+            <a href="" class="dropdown-toggle" data-toggle="dropdown"><span id="ac_data_type" data-type="{{active_data_type}}">{{active_data_type | title}}</span> <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              {% for d in data_type %}
+                <li><a href="" class="d">{{d}}</a></li>
+              {% endfor %}
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!--scripts loaded here -->
+  <script src="{% static 'stats/js/jquery.min.js' %}"></script>
+  <script src="{% static 'stats/js/bootstrap.min.j' %}s"></script>
+  <script src="{% static 'stats/js/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'stats/js/wow.js' %}"></script>
+  <script src="{% static 'stats/js/chartist.min.js' %}"></script>
+  <script src="{% static 'stats/js/stats.js' %}"></script>
+</body>
+
+</html>

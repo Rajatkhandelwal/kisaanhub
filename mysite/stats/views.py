@@ -42,7 +42,10 @@ def stats_data(request, country, data_type):
         data = json.dumps(list(d), cls=DjangoJSONEncoder)
 
         params = {
-            "cool": data
+            "regions": settings.REGION,
+            "data_type": settings.DATA_TYPE,
+            "active_region": country,
+            "active_data_type": data_type.replace('_', ' ')
         }
         context = RequestContext(request, params)
         return HttpResponse(template.render(context))
