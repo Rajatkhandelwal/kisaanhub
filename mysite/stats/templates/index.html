@@ -58,31 +58,23 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-md-4">
-        <a href="" class="gallery-box">
-          <img src="{% static 'stats/assets/deer.jpg' %}" class="img-responsive" alt="Image 1">
-          <div class="gallery-box-caption">
-            <div class="gallery-box-content">
-              <div>
-                <button class="btn btn-default btn-w">Max Temp</button>
-              </div>
-              <div>
-                <button class="btn btn-default btn-w">Min Temp</button>
-              </div>
-              <div>
-                <button class="btn btn-default btn-w">Mean Temp</button>
-              </div>
-              <div>
-                <button class="btn btn-default btn-w">Sunshine</button>
-              </div>
-              <div>
-                <button class="btn btn-default btn-w">Rainfall</button>
+      {% for r in regions %}
+        <div class="col-md-4">
+          <a href="" class="gallery-box">
+            <img src="{% static 'stats/assets/deer.jpg' %}" class="img-responsive" alt="Image 1">
+            <div class="gallery-box-caption">
+              <div class="gallery-box-content">
+                {% for d in data_type %}
+                  <div>
+                    <button class="btn btn-default btn-w" data-region="{{r}}" data-type="{{d}}">{{ d }}</button>
+                  </div>
+                {% endfor %}
               </div>
             </div>
-          </div>
-        </a>
-        <h3 class="text-center">UK</h3>
-      </div>
+          </a>
+          <h3 class="text-center">{{ r }}</h3>
+        </div>
+      {% endfor %}
     </div>
   </div>
   <!--scripts loaded here -->
@@ -90,8 +82,7 @@
   <script src="{% static 'stats/js/bootstrap.min.j' %}s"></script>
   <script src="{% static 'stats/js/jquery.easing.min.js' %}"></script>
   <script src="{% static 'stats/js/wow.js' %}"></script>
-  <script src="{% static 'stats/js/scripts.js' %}"></script>
-  <script src="{% static 'stats/js/angular.min.js'%}"></script>
+  <script src="{% static 'stats/js/index.js' %}"></script>
 </body>
 
 </html>

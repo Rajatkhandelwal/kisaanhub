@@ -112,6 +112,9 @@ STATICFILES_DIRS = ( os.path.join(BASE_DIR, "static"), )
 
 DATA_ROOT_URL = 'https://www.metoffice.gov.uk/pub/data/weather/uk/climate/datasets/'
 
+REGION = ['UK', 'England', 'Wales', 'Scotland']
+DATA_TYPE = ['Max Temp', 'Min Temp', 'Mean Temp', 'Sunshine', 'Rainfall']
+
 REGION_TYPE = {
     'uk': {
         'max_temp': 'Tmax/date/UK.txt',

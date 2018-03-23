@@ -14,7 +14,11 @@ import os
 def index(request):
     try:
         template = loader.get_template("index.html")
-        context = RequestContext(request, {})
+        params = {
+          "regions": settings.REGION,
+          "data_type": settings.DATA_TYPE
+        }
+        context = RequestContext(request, params)
         return HttpResponse(template.render(context))
     except ObjectDoesNotExist:
         return HttpResponseNotFound(loader.get_template("404.html").render(RequestContext(request,{})))
