@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import RequestContext, loader, Template
 from stats.models import *
+from django.core.serializers.json import DjangoJSONEncoder
 
 import requests
 import json
@@ -11,7 +12,6 @@ import os
 
 # Create your views here.
 def index(request):
-
     temp_file = 'temp.txt'
     data_type = 'min_temp'
     country = 'uk'
@@ -62,8 +62,12 @@ def stats_data(request, country, data_type):
           return HttpResponseNotFound(loader.get_template("404.html").render(RequestContext(request,{})))
 
         template = loader.get_template("index.html")
+
+        d = Data.objects.values().filter(data_type=data_type, country=country)
+        data = json.dumps(list(d), cls=DjangoJSONEncoder)
+
         params = {
-            "cool": "This is cool!"
+            "cool": data
         }
         context = RequestContext(request, params)
         return HttpResponse(template.render(context))
