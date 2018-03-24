@@ -27,52 +27,31 @@
         </button>
         <a class="navbar-brand page-scroll" href="#first">Weather Stats</a>
       </div>
-      <!--
-            <div class="navbar-collapse collapse" id="bs-navbar">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a class="page-scroll" href="#one">Intro</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#two">Highlights</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#three">Gallery</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#four">Features</a>
-                    </li>
-                    <li>
-                        <a class="page-scroll" href="#last">Contact</a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a class="page-scroll" data-toggle="modal" title="A free Bootstrap video landing theme" href="#aboutModal">About</a>
-                    </li>
-                </ul>
-            </div>
--->
     </div>
   </nav>
 
   <div class="container">
     <div class="row">
-      {% for r in regions %}
+      <div class="col-md-6 col-md-offset-3">
+        <h1 class="text-center" style="padding: 1em;"><u>Weather Statistics</u></h1>
+      </div>
+    </div>
+    <div class="row" style="display: flex;">
+      {% for r in region_image %}
         <div class="col-md-4">
           <a href="" class="gallery-box">
-            <img src="{% static 'stats/assets/deer.jpg' %}" class="img-responsive" alt="Image 1">
+            <img src="{% static r.1 %}" class="img-responsive" alt="{{r.0}}">
             <div class="gallery-box-caption">
               <div class="gallery-box-content">
                 {% for d in data_type %}
                   <div>
-                    <button class="btn btn-default btn-w" data-region="{{r}}" data-type="{{d}}">{{ d }}</button>
+                    <button class="btn btn-default btn-w" data-region="{{r.0}}" data-type="{{d}}">{{ d }}</button>
                   </div>
                 {% endfor %}
               </div>
             </div>
           </a>
-          <h3 class="text-center">{{ r }}</h3>
+          <h3 class="text-center">{{ r.0 }}</h3>
         </div>
       {% endfor %}
     </div>

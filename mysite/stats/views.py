@@ -15,7 +15,7 @@ def index(request):
     try:
         template = loader.get_template("index.html")
         params = {
-          "regions": settings.REGION,
+          "region_image": settings.REGION_IMAGE,
           "data_type": settings.DATA_TYPE
         }
         context = RequestContext(request, params)

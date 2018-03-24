@@ -113,6 +113,7 @@ STATICFILES_DIRS = ( os.path.join(BASE_DIR, "static"), )
 DATA_ROOT_URL = 'https://www.metoffice.gov.uk/pub/data/weather/uk/climate/datasets/'
 
 REGION = ['UK', 'England', 'Wales', 'Scotland']
+REGION_IMAGE = [['UK', 'stats/assets/uk.jpg'], ['England', 'stats/assets/england.jpg'], ['Wales', 'stats/assets/wales.jpg'], ['Scotland', 'stats/assets/scotland.jpg']]
 DATA_TYPE = ['Max Temp', 'Min Temp', 'Mean Temp', 'Sunshine', 'Rainfall']
 
 REGION_TYPE = {
