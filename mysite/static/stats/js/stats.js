@@ -135,7 +135,20 @@
 
   // resyncing data from metoffice
   $(".btn-resync").on('click', function(e) {
-
+    $.ajax({
+      type: 'POST',
+      url: '/resync_data',
+      data: {
+        data_type: ac_data_type,
+        region: ac_region
+      },
+      success: function(data){
+        console.log(data);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
   });
 
   // helper function to update the chart rendered
