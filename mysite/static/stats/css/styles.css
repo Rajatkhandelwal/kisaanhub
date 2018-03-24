@@ -287,3 +287,8 @@ img::-moz-selection {
   color: #fff;
   background: 0 0;
 }
+
+.bootstrap-select {
+  padding: 0 !important;
+  width: 100% !important;
+}

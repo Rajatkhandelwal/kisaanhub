@@ -50,18 +50,35 @@
       </div>
     </div>
   </nav>
-  <div class="container" id="chart-container" data-stats="{{stats}}">
-    <div class="row">
+  <div class="container-fluid" id="chart-container" data-stats="{{stats}}">
+    <div class="row" style="display: flex; flex-wrap: wrap;">
       <div class="col-md-2 col-sm-2 col-xs-12">
+        <div style="display: flex; flex-direction: column; align-content: center; justify-content: center; height: 100%;">
+          <div class="list-group">
+            <button class="list-group-item disabled">Set Year Range - </button>
+            <select id="year_range" class="list-group-item selectpicker" multiple data-max-options="2" title="Set year range">
+            </select>
+          </div>
+          <div class="list-group">
+            <button class="list-group-item disabled">Select - </button>
+            <select id="category" class="list-group-item selectpicker" title="Set year range">
+              <option value="annual">Annual</option>
+              <option value="seasons">Seasons</option>
+              <option value="months">Months</option>
+            </select>
+          </div>
+        </div>
       </div>
       <div class="col-md-10 col-sm-10 col-xs-12">
 <!--        <div class="chart-container" style="position: relative; height:40vh; width:80vw">-->
           <canvas id="chart"></canvas>
 <!--        </div>-->
+<!--
         <div class="text-center">
           <select id="year_range" class="selectpicker" multiple data-max-options="2" title="Set year range">
           </select>
         </div>
+-->
       </div>
     </div>
   </div>
