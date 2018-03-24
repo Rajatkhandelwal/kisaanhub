@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="{% static 'stats/css/bootstrap.min.css' %}" />
   <link rel="stylesheet" href="{% static 'stats/css/animate.min.css' %}" />
   <link rel="stylesheet" href="{% static 'stats/css/ionicons.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'stats/css/bootstrap-select.min.css' %}" />
   <link rel="stylesheet" href="{% static 'stats/css/styles.css' %}" />
 </head>
 
@@ -52,18 +53,22 @@
   <div class="container" id="chart-container" data-stats="{{stats}}">
     <div class="row">
       <div class="col-md-2 col-sm-2 col-xs-12">
-        
       </div>
       <div class="col-md-10 col-sm-10 col-xs-12">
 <!--        <div class="chart-container" style="position: relative; height:40vh; width:80vw">-->
           <canvas id="chart"></canvas>
 <!--        </div>-->
+        <div class="text-center">
+          <select id="year_range" class="selectpicker" multiple data-max-options="2" title="Set year range">
+          </select>
+        </div>
       </div>
     </div>
   </div>
   <!--scripts loaded here -->
   <script src="{% static 'stats/js/jquery.min.js' %}"></script>
-  <script src="{% static 'stats/js/bootstrap.min.j' %}s"></script>
+  <script src="{% static 'stats/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'stats/js/bootstrap-select.min.js' %}"></script>
   <script src="{% static 'stats/js/jquery.easing.min.js' %}"></script>
   <script src="{% static 'stats/js/wow.js' %}"></script>
   <script src="{% static 'stats/js/Chart.bundle.min.js' %}"></script>

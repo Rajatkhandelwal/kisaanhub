@@ -49,6 +49,16 @@
     });
   }
 
+  function ObjectLength( object ) {
+    var length = 0;
+    for( var key in object ) {
+      if( object.hasOwnProperty(key) ) {
+        ++length;
+      }
+    }
+    return length;
+  };
+
   var stats = sortByKey($("#chart-container").data("stats"), "year");
   var keys = Object.keys(stats[0]);
   var data = {};
@@ -58,17 +68,18 @@
     });
   }
 
-  var LOWER_LIMIT = 0,
-    UPPER_LIMIT = 109;
+  var SIZE = data.year.length;
+  var lower_limit = 0,
+    upper_limit = SIZE, mid_limit = upper_limit / 2;
 
   var ctx = $("#chart");
   var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: data.year.slice(LOWER_LIMIT, UPPER_LIMIT),
+      labels: data.year.slice(lower_limit, upper_limit),
       datasets: [{
         label: 'Jan',
-        data: data.jan.slice(LOWER_LIMIT, UPPER_LIMIT),
+        data: data.jan.slice(lower_limit, upper_limit),
         backgroundColor: colors.jan[0],
         borderColor: colors.jan[1],
         borderWidth: 1,
@@ -84,6 +95,34 @@
         }]
       }
     }
+  });
+
+  for (var key in data.year)
+    $("#year_range").append($("<option>" + data.year[key] + "</option>"));
+
+  $("#year_range").on('changed.bs.select', function(e) {
+    var options = $(this)[0].selectedOptions;
+    if (options.length == 1) {
+      if (options[0].index > mid_limit) {
+        lower_limit = options[0].index;
+        upper_limit = SIZE;
+      } else {
+        lower_limit = 0;
+        upper_limit = options[0].index + 1;
+      }
+    } else if (options.length == 2) {
+      lower_limit = options[0].index;
+      upper_limit = options[1].index;
+    } else {
+      lower_limit = 0;
+      upper_limit = SIZE;
+    }
+    myChart.data.labels = data.year.slice(lower_limit, upper_limit);
+    var datasets = myChart.data.datasets;
+    for (var i = 0; i < datasets.length; i++) {
+      datasets[i].data = data[datasets[i].label.toLowerCase()].slice(lower_limit, upper_limit);
+    }
+    myChart.update();
   });
 
 })(jQuery);
