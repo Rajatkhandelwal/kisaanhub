@@ -55,7 +55,7 @@
   
   if (stats.length > 0) {
     $("#chart-container").removeClass("hidden");
-    $("#empty-container").addClass("hidden");
+    $("#loader-container").addClass("hidden");
 
     // Creating an array of keys. For eg. ['jan', 'feb', 'mar'...]
     var keys = Object.keys(stats[0]);
@@ -102,8 +102,7 @@
       options: { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } }
     });
   } else {
-    $("#chart-container").addClass("hidden");
-    $("#empty-container").removeClass("hidden");
+    resyncData();
   }
 
   // on category change from select dropdown the chart is updated for selected category
@@ -136,6 +135,12 @@
   // resyncing data from metoffice
   $(".btn-resync").on('click', function(e) {
     e.preventDefault();
+    resyncData();
+  });
+
+  function resyncData() {
+    $("#chart-container").addClass("hidden");
+    $("#loader-container").removeClass("hidden");
     $.ajax({
       type: 'POST',
       url: '/resync_data',
@@ -146,12 +151,14 @@
       success: function(data){
         if (data.success)
           window.location.reload();
+        $("#chart-container").removeClass("hidden");
+        $("#loader-container").addClass("hidden");
       },
       error: function(err) {
         console.log(err);
       }
     });
-  });
+  }
 
   // helper function to update the chart rendered
   function update_chart() {
