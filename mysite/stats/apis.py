@@ -47,6 +47,11 @@ def resync_data(request):
 
             os.remove(temp_file)
 
+            d = Data.objects.values().filter(data_type=data_type, country=region)
+            data = json.dumps(list(d), cls=DjangoJSONEncoder)
+
+            res["stats"] = data
+
             return HttpResponse(json.dumps(res), content_type='application/json')
         except Exception, ex:
             res["success"]=False

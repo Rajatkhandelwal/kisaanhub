@@ -135,6 +135,7 @@
 
   // resyncing data from metoffice
   $(".btn-resync").on('click', function(e) {
+    e.preventDefault();
     $.ajax({
       type: 'POST',
       url: '/resync_data',
@@ -143,7 +144,8 @@
         region: ac_region
       },
       success: function(data){
-        console.log(data);
+        if (data.success)
+          window.location.reload();
       },
       error: function(err) {
         console.log(err);
