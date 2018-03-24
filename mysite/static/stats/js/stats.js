@@ -52,50 +52,59 @@
 
   // fetching the stats data received from the backend for a region and data_type
   var stats = sortByKey($("#chart-container").data("stats"), "year");
-  // Creating an array of keys. For eg. ['jan', 'feb', 'mar'...]
-  var keys = Object.keys(stats[0]);
-  // categorizing stats data with generated keys. Values for those keys are array of values for those keys in the stats.
-  // For eg. {"year": ["1910","1911"...], "jan": ["1.2", "1.44"...], ....}
-  var data = {};
-  for (var i = 0; i < keys.length; i++) {
-    data[keys[i]] = stats.map(function (obj) {
-      return obj[keys[i]]
+  
+  if (stats.length > 0) {
+    $("#chart-container").removeClass("hidden");
+    $("#empty-container").addClass("hidden");
+
+    // Creating an array of keys. For eg. ['jan', 'feb', 'mar'...]
+    var keys = Object.keys(stats[0]);
+    // categorizing stats data with generated keys. Values for those keys are array of values for those keys in the stats.
+    // For eg. {"year": ["1910","1911"...], "jan": ["1.2", "1.44"...], ....}
+    var data = {};
+    for (var i = 0; i < keys.length; i++) {
+      data[keys[i]] = stats.map(function (obj) {
+        return obj[keys[i]]
+      });
+    }
+
+    // populating the years in the select dropdown
+    for (var key in data.year)
+      $("#year_range").append($("<option>" + data.year[key] + "</option>"));
+
+    // This gives us the length of data points in a dataset
+    var SIZE = data.year.length;
+
+    // lower_limit - decides the lower limit of data points that will be rendered
+    // upper_limit - decides the upper limit of data points that will be rendered
+    // mid_limit - gives the mid point of those limits
+    var lower_limit = 0, upper_limit = SIZE, mid_limit = upper_limit / 2;
+
+    // calculating all the datasets and categorizing them by "annual", "months", "seasons"
+    var datasets = {
+      "annual": [generate_dataset("ann")],
+      "months": [generate_dataset("jan"), generate_dataset("feb"), generate_dataset("mar"), generate_dataset("apr"), generate_dataset("may"), generate_dataset("jun"), generate_dataset("jul"), generate_dataset("aug"), generate_dataset("sep"), generate_dataset("oct"), generate_dataset("nov"), generate_dataset("dec")],
+      "seasons": [generate_dataset("sum"), generate_dataset("spr"), generate_dataset("aut"), generate_dataset("win")]
+    }
+
+    // the variable store the active datasets which is currently being rendered
+    // keeping it annual by default
+    var active_dataset = "annual";
+
+    // declaring a chart from Chart.js library
+    var ctx = $("#chart");
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: data.year.slice(lower_limit, upper_limit), // initialzing the labels
+        datasets: datasets[active_dataset] // initializing the datasets
+      },
+      options: { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } }
     });
+  } else {
+    $("#chart-container").addClass("hidden");
+    $("#empty-container").removeClass("hidden");
   }
-  
-  // populating the years in the select dropdown
-  for (var key in data.year)
-    $("#year_range").append($("<option>" + data.year[key] + "</option>"));
-  
-  // This gives us the length of data points in a dataset
-  var SIZE = data.year.length;
-  
-  // lower_limit - decides the lower limit of data points that will be rendered
-  // upper_limit - decides the upper limit of data points that will be rendered
-  // mid_limit - gives the mid point of those limits
-  var lower_limit = 0, upper_limit = SIZE, mid_limit = upper_limit / 2;
-
-  // calculating all the datasets and categorizing them by "annual", "months", "seasons"
-  var datasets = {
-    "annual": [generate_dataset("ann")],
-    "months": [generate_dataset("jan"), generate_dataset("feb"), generate_dataset("mar"), generate_dataset("apr"), generate_dataset("may"), generate_dataset("jun"), generate_dataset("jul"), generate_dataset("aug"), generate_dataset("sep"), generate_dataset("oct"), generate_dataset("nov"), generate_dataset("dec")],
-    "seasons": [generate_dataset("sum"), generate_dataset("spr"), generate_dataset("aut"), generate_dataset("win")]
-  }
-
-  // the variable store the active datasets which is currently being rendered
-  // keeping it annual by default
-  var active_dataset = "annual";
-
-  // declaring a chart from Chart.js library
-  var ctx = $("#chart");
-  var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: data.year.slice(lower_limit, upper_limit), // initialzing the labels
-      datasets: datasets[active_dataset] // initializing the datasets
-    },
-    options: { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } }
-  });
 
   // on category change from select dropdown the chart is updated for selected category
   $("#category").on('changed.bs.select', function(e) {
@@ -122,6 +131,11 @@
       upper_limit = SIZE;
     }
     update_chart();
+  });
+
+  // resyncing data from metoffice
+  $(".btn-resync").on('click', function(e) {
+
   });
 
   // helper function to update the chart rendered
