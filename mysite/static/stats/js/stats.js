@@ -1,26 +1,32 @@
 (function ($) {
 
+  // region is defined ['UK', 'England', 'Wales', 'Scotland']
+  // data_type is defined ['Max Temp', 'Min Temp', 'Mean Temp', 'Sunshine', 'Rainfall']
+  
+  // for the region and data_type dropdown in the header
   $('ul.nav li.dropdown').hover(function () {
     $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
   }, function () {
     $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
   });
-
   var ac_region = $("#ac_region").data("region").toLowerCase();
   var ac_data_type = $("#ac_data_type").data("type").toLowerCase().replace(/ /g, "_");
-
+  
+  // rendering the template for region selected
   $('#regions .r').on('click', function (e) {
     e.preventDefault();
     ac_region = ($(this)[0].innerText).toLowerCase();
     window.location.replace("/" + ac_region + "/" + ac_data_type);
   });
 
+  // rendering the template for a data_type selected
   $('#data_type .d').on('click', function (e) {
     e.preventDefault();
     ac_data_type = ($(this)[0].innerText).toLowerCase().replace(/ /g, "_");
     window.location.replace("/" + ac_region + "/" + ac_data_type);
   });
 
+  // Defining particular colors for each dataset.
   var colors = {
     "jan": ["rgba(244,67,54,0.2)", "rgba(244,67,54,1)"],
     "feb": ["rgba(3,169,244,0.2)", "rgba(3,169,244,1)"],
@@ -41,44 +47,63 @@
     "ann": ["rgba(255,87,34,0.2)", "rgba(255,87,34,1)"]
   };
 
+  // defining axis labels
   var labels = {"jan": "Jan", "feb": "Feb", "mar": "Mar", "apr": "Apr", "may": "May", "jun": "Jun", "jul": "Jul", "aug": "Aug", "sep": "Sep", "oct": "Oct", "nov": "Nov", "dec": "Dec", "sum": "Summer", "spr": "Spring", "aut": "Autumn", "win": "Winter", "ann": "Annual" };
 
+  // fetching the stats data received from the backend for a region and data_type
   var stats = sortByKey($("#chart-container").data("stats"), "year");
+  // Creating an array of keys. For eg. ['jan', 'feb', 'mar'...]
   var keys = Object.keys(stats[0]);
+  // categorizing stats data with generated keys. Values for those keys are array of values for those keys in the stats.
+  // For eg. {"year": ["1910","1911"...], "jan": ["1.2", "1.44"...], ....}
   var data = {};
   for (var i = 0; i < keys.length; i++) {
     data[keys[i]] = stats.map(function (obj) {
       return obj[keys[i]]
     });
   }
+  
+  // populating the years in the select dropdown
   for (var key in data.year)
     $("#year_range").append($("<option>" + data.year[key] + "</option>"));
+  
+  // This gives us the length of data points in a dataset
   var SIZE = data.year.length;
+  
+  // lower_limit - decides the lower limit of data points that will be rendered
+  // upper_limit - decides the upper limit of data points that will be rendered
+  // mid_limit - gives the mid point of those limits
   var lower_limit = 0, upper_limit = SIZE, mid_limit = upper_limit / 2;
 
+  // calculating all the datasets and categorizing them by "annual", "months", "seasons"
   var datasets = {
     "annual": [generate_dataset("ann")],
     "months": [generate_dataset("jan"), generate_dataset("feb"), generate_dataset("mar"), generate_dataset("apr"), generate_dataset("may"), generate_dataset("jun"), generate_dataset("jul"), generate_dataset("aug"), generate_dataset("sep"), generate_dataset("oct"), generate_dataset("nov"), generate_dataset("dec")],
     "seasons": [generate_dataset("sum"), generate_dataset("spr"), generate_dataset("aut"), generate_dataset("win")]
   }
 
+  // the variable store the active datasets which is currently being rendered
+  // keeping it annual by default
   var active_dataset = "annual";
 
+  // declaring a chart from Chart.js library
   var ctx = $("#chart");
   var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: data.year.slice(lower_limit, upper_limit),
-      datasets: datasets[active_dataset]
+      labels: data.year.slice(lower_limit, upper_limit), // initialzing the labels
+      datasets: datasets[active_dataset] // initializing the datasets
     },
     options: { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } }
   });
 
+  // on category change from select dropdown the chart is updated for selected category
   $("#category").on('changed.bs.select', function(e) {
     active_dataset = $(this)[0].value;
     update_chart();
   });
 
+  // on selecting a range from the year dropdown the lower and upper limits are updated and the chart is updated
   $("#year_range").on('changed.bs.select', function(e) {
     var options = $(this)[0].selectedOptions;
     if (options.length == 1) {
@@ -99,6 +124,7 @@
     update_chart();
   });
 
+  // helper function to update the chart rendered
   function update_chart() {
     myChart.data.labels = data.year.slice(lower_limit, upper_limit);
     var dts_clone = $.extend(true, {}, datasets);
@@ -110,6 +136,7 @@
     myChart.update();
   }
 
+  // helper methos used to generate a dataset for any data point argument
   function generate_dataset(name) {
     return {
       label: labels[name],
@@ -121,6 +148,7 @@
     };
   }
 
+  // helper method to an object by a particular key
   function sortByKey(array, key) {
     return array.sort(function (a, b) {
       var x = a[key];
@@ -129,6 +157,7 @@
     });
   }
 
+  // helper method to calculate the number of properties in an object
   function ObjectLength( object ) {
     var length = 0;
     for( var key in object ) {
