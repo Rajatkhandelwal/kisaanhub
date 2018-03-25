@@ -19,3 +19,5 @@ A weather Statistics Report From https://www.metoffice.gov.uk
 
 * Django Documentation
 * Stackoverflow
+* http://www.chartjs.org - For Charts
+* https://silviomoreto.github.io/bootstrap-select/ - For select dropdowns

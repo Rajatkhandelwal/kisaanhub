@@ -78,7 +78,7 @@
     // lower_limit - decides the lower limit of data points that will be rendered
     // upper_limit - decides the upper limit of data points that will be rendered
     // mid_limit - gives the mid point of those limits
-    var lower_limit = 0, upper_limit = SIZE, mid_limit = upper_limit / 2;
+    var lower_limit = SIZE * 3 / 4, upper_limit = SIZE, mid_limit = upper_limit / 2;
 
     // calculating all the datasets and categorizing them by "annual", "months", "seasons"
     var datasets = {
@@ -101,6 +101,11 @@
       },
       options: { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } }
     });
+
+    $("#year_range").children().removeAttr("selected");
+    $("#year_range").children().eq(Math.round(lower_limit) - 1).attr('selected', 'selected');
+    $("#year_range").children().eq(upper_limit - 1).attr('selected', 'selected');
+    $("#category").val(active_dataset);
   } else {
     resyncData();
   }
@@ -176,7 +181,7 @@
   function generate_dataset(name) {
     return {
       label: labels[name],
-      data: data[name].slice(lower_limit, upper_limit),
+      data: data[name].slice(0, SIZE),
       backgroundColor: colors[name][0],
         borderColor: colors[name][1],
         borderWidth: 1,
