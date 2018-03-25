@@ -1,10 +1,3 @@
-/*
-
-Landing Zero theme - A free landing page theme from BootstrapZero
-http://www.bootstrapzero.com
-
-*/
-
 @import url(https://fonts.googleapis.com/css?family=Questrial);
 @import url(http://fonts.googleapis.com/css?family=Dancing+Script:700);
 html,
@@ -254,7 +247,7 @@ fieldset[disabled] .btn-default.active {
 }
 
 .btn {
-  font-family: 'Helvetica Neue',Arial,sans-serif;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
 .btn-xl {
@@ -294,15 +287,19 @@ img::-moz-selection {
 }
 
 .loader {
-    border: 16px solid #f1f1f1;
-    border-top: 16px solid #ccc;
-    border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite;
+  border: 16px solid #f1f1f1;
+  border-top: 16px solid #ccc;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

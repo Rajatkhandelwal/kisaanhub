@@ -17,24 +17,31 @@ def resync_data(request):
     if request.method == 'POST':
         try:
 
+            # creating a temp file to keep the downloaded txt from metoffice website
             temp_file = 'temp.txt'
+
             data_type = request.POST.get('data_type')
             region = request.POST.get('region')
 
+            # downloading and saving the txt file
             r = requests.get(settings.DATA_ROOT_URL + settings.REGION_TYPE[region][data_type])
             file = open(temp_file,'w')
             file.write(r.text)
             file.close()
 
+            # start of parsing of txt file
             with open(temp_file) as stats:
                 table = stats.readlines()[7:]
 
             table_list = [row.split() for row in table]
 
             table_dict = dict((z[0],list(z[1:])) for z in table_list[1:])
+            # end of parsing of txt file
 
             keys = [x.lower() for x in table_list[0][1:]]
 
+            # checking the data in table if values already exist then they are updated
+            # if they donot exist then new row is inserted
             for key, value in table_dict.iteritems():
                 update_fields = dict(zip(keys, [convert_to_float(i) for i in value]))
                 year = int(key)
@@ -45,12 +52,8 @@ def resync_data(request):
                     insert_fields.update(update_fields)
                     Data(**insert_fields).save()
 
+            # removing the temp file
             os.remove(temp_file)
-
-            d = Data.objects.values().filter(data_type=data_type, country=region)
-            data = json.dumps(list(d), cls=DjangoJSONEncoder)
-
-            res["stats"] = data
 
             return HttpResponse(json.dumps(res), content_type='application/json')
         except Exception, ex:

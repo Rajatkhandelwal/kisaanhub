@@ -10,7 +10,7 @@ import requests
 import json
 import os
 
-# Create your views here.
+# view for index.html with regions and data types
 def index(request):
     try:
         template = loader.get_template("index.html")
@@ -23,6 +23,7 @@ def index(request):
     except ObjectDoesNotExist:
         return HttpResponseNotFound(loader.get_template("404.html").render(RequestContext(request,{})))
 
+# view for stats.html accepting region and data type as request params
 def stats_data(request, region, data_type):
     try:
         if(region not in settings.REGION_TYPE):
