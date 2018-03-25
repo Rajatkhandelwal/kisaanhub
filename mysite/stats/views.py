@@ -36,10 +36,12 @@ def stats_data(request, region, data_type):
         d = Data.objects.values().filter(data_type=data_type, country=region)
         data = json.dumps(list(d), cls=DjangoJSONEncoder)
 
+        data_type_index = settings.DATA_TYPE.index(data_type.replace('_', ' ').title())
+
         params = {
             "regions": settings.REGION,
             "data_type": settings.DATA_TYPE,
-            "title": "This is title",
+            "title": settings.DATA_TYPE[data_type_index] + " (" +  settings.DATA_UNIT[data_type_index] + ")",
             "active_region": region,
             "active_data_type": data_type.replace('_', ' '),
             "stats": data
