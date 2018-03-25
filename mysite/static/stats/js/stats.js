@@ -52,6 +52,7 @@
 
   // fetching the stats data received from the backend for a region and data_type
   var stats = sortByKey($("#chart-container").data("stats"), "year");
+  var title = $("#chart-container").data("title");
   
   if (stats.length > 0) {
     $("#chart-container").removeClass("hidden");
@@ -99,7 +100,29 @@
         labels: data.year.slice(lower_limit, upper_limit), // initialzing the labels
         datasets: datasets[active_dataset] // initializing the datasets
       },
-      options: { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } }
+      options: {
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true
+              }
+            }
+          ]
+        },
+        title: {
+          display: true,
+          fontSize: 18,
+          text: title
+        },
+        legend: {
+          display: true,
+          labels: {
+            pointStyle: true,
+            showLine: true
+          }
+        }
+      }
     });
 
     $("#year_range").children().removeAttr("selected");
@@ -183,9 +206,11 @@
       label: labels[name],
       data: data[name].slice(0, SIZE),
       backgroundColor: colors[name][0],
-        borderColor: colors[name][1],
-        borderWidth: 1,
-        pointRadius: 0
+      borderColor: colors[name][1],
+      borderWidth: 1,
+      pointRadius: 5,
+      pointHoverRadius: 7,
+      pointStyle: 'rectRot'
     };
   }
 

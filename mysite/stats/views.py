@@ -39,6 +39,7 @@ def stats_data(request, region, data_type):
         params = {
             "regions": settings.REGION,
             "data_type": settings.DATA_TYPE,
+            "title": "This is title",
             "active_region": region,
             "active_data_type": data_type.replace('_', ' '),
             "stats": data

@@ -115,6 +115,7 @@ DATA_ROOT_URL = 'https://www.metoffice.gov.uk/pub/data/weather/uk/climate/datase
 REGION = ['UK', 'England', 'Wales', 'Scotland']
 REGION_IMAGE = [['UK', 'stats/assets/uk.jpg'], ['England', 'stats/assets/england.jpg'], ['Wales', 'stats/assets/wales.jpg'], ['Scotland', 'stats/assets/scotland.jpg']]
 DATA_TYPE = ['Max Temp', 'Min Temp', 'Mean Temp', 'Sunshine', 'Rainfall']
+DATA_UNIT = ['Degrees C', 'Degrees C', 'Degrees C', 'Total hours', 'mm']
 
 REGION_TYPE = {
     'uk': {
